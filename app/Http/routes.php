@@ -11,14 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-        echo 'welcome';
-});
+Route::group(['middleware' => ['web']], function () {
+	Route::get('/', function () {
+	        echo 'welcome';
+	});
 
-Route::get('/practice', function () {
-        return view('welcome');
-});
+	Route::get('/practice', function () {
+	        return view('welcome');
+	});
 
-Route::get('/index', function () {
-    	return view('index');
+	Route::get('/index', function () {
+	    	return view('index');
+	});
 });
