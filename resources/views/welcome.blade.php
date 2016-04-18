@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+
+    {{ csrf_field() }}
     <head>
         <title>Laravel</title>
 
