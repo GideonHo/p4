@@ -1,0 +1,251 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#header {
+  width: 100%;
+  height: 6em;
+  background-color: #00547F;
+  color: white;
+  text-align: left;
+}
+
+#header h1 {
+  position: relative;
+  top: 1em;
+  left: 1em;
+  margin:0;
+  padding:0;
+}
+
+
+/* CSS for the nav div */
+
+#nav {
+  background-color:#7E7F7F;
+  float: left;
+  padding: 1em 2% 0 2%;
+  width: 20%;
+  height: 2800px;
+}
+
+#nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#nav li {  
+  padding: 0 0 1em 0;
+}
+
+#nav a {
+  color: white;
+  text-decoration: none;
+}
+
+
+/* CSS for the main div*/
+
+#main {
+  float: left;
+  width: 60%; height: 2800px;
+  overflow: hidden;
+}
+
+#main h1 {
+  background-color: white;
+  color: #43A4FF;
+  border: none;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
+fieldset {
+  width: 100%;
+  border: none;
+}
+
+label {
+  float: left;
+  width: 10em;
+  text-align: left;
+} 
+
+label#comment {
+  float: left;
+  width: 12em;
+  margin: 0 0 1em 0;
+  text-align: left;
+} 
+
+input[type="submit"], input[type="button"] {
+  clear: both;
+  float: left;
+  width: 10em;
+  margin: 0 0 1em 2em;  
+}
+
+input[type="reset"] {
+  float: left;
+  width: 10em;
+  margin: 0 0 1em 2em;  
+}
+
+input:not([type="url"]) {
+  border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border: 1px solid #8c8c8c;  
+}
+
+select {
+  width: 11.5em;
+  border: 1px solid #8c8c8c;  
+}
+
+div.title {
+  font-family: 'Pacifico', cursive;
+  margin: 1em;
+  clear: both;
+}
+
+div#contact-details {
+  float: left;
+  color: white; 
+  background-color: #43A4FF;
+  margin: 1em;
+  padding: 1em 2% 1em 2%;
+  width: 100%; height: 100%;
+}
+
+/*
+div#result p {
+  float: left;
+  color: black; 
+  background-color: none;
+  margin: 1em;
+  padding: 1em 2% 1em 2%;
+  width: 100%; height: 100%;
+}
+*/
+
+div.myCanvas1 {
+  float: left;
+  color: white; 
+  background-color: #43A4FF;
+  padding: 2em 2% 1em 2%;
+  margin: 2em 0 0 2em;
+  width: 40%; height: 400px;
+}
+div.myCanvas2 {
+  float: left;
+  color: white; 
+  background-color: #43A4FF;
+  padding: 2em 2% 1em 2%;
+  margin: 2em 0 0 0 ;
+  width: 56%; height: 400px;
+}
+
+#canvas1 {
+  float: left;
+  margin: 0.5em 0 1em 0;
+  width: 95%; height: 95%;
+  background-color: white;
+}
+
+div.questions {
+  display: inline-block;
+  color: white;
+  background-color: #43A4FF;
+  margin: 0 1em 0 1em;
+  padding: 1em 2% 1em 2%;
+  width: 100%;
+}
+
+
+/* CSS for the sidebar div*/
+
+div#sidebar {
+  background-color: white;
+  float: left;
+  width: 20%; height: 2800px;
+  padding: 1em 2% 0 2%;
+}
+
+img {
+  float: left;
+  width: 100%;
+  margin: 5px 5px 10px 0;
+  padding: 10px;
+
+  border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border: 1px solid #8c8c8c;
+
+  -webkit-box-shadow: 5px 5px 0px 0px rgba(97,96,97,0.43);
+  -moz-box-shadow: 5px 5px 0px 0px rgba(97,96,97,0.43);
+  box-shadow: 5px 5px 0px 0px rgba(97,96,97,0.43);
+}
+
+img#sponsor {
+  position: relative;
+  top: 0em;
+  z-index: 1;
+}
+
+/* CSS for the footer div*/
+
+#footer {
+  clear: both;
+  background-color:#CC0527;
+  color: white;
+  padding: 2%;
+}
+
+.error {
+  border-color: red;
+  color: red;
+}
+
+.row {
+  clear: both;
+}
+
+.column {
+  width: 33.33%;
+  padding: 1em;
+  float: left;
+}
+
+.column img {
+  height: 225px;
+  width: 100%;
+  max-width: 225px;
+  opacity: 0.2;
+  border-radius: 10px;
+}
+
+.test {
+  opacity: 0;
+}
+
+.rounded {
+  height: 225px;
+  width: 100%;
+  max-width: 225px;
+  opacity: 1;
+  border-radius: 10px;
+}

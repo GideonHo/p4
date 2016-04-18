@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::get('/practice', function () {
         return view('welcome');
 });
+
+Route::get('/index', function () {
+    	return view('index');
+});
