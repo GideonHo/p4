@@ -7,14 +7,15 @@
 </head>
 <body>
     <div id="header">
-        <h1>Dynamic Web Application P3</h1>
+        @yield('title')
     </div>
     <div id="wraper">
         <div id="nav">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/text">Lorem Ipsum Generator</a></li>
-                <li><a href="/user">Random User Generator</a></li>
+                <li><a href="/jobs/create">Create Job</a></li>
+                <li><a href="/jobs/edit/1">Edit Job</a></li>
+                <li><a href="/jobs/delete/1">Delete Job</a></li>
             </ul>
         </div>
         <div id="main" style="height: auto;">
@@ -22,8 +23,8 @@
         </div>
         <div id="sidebar">
             <p>Sponsors:</p>
-            <p><img src="photo/logo.png" alt="logo"></p>
-            <p><img id="sponsor" src="photo/austen.jpg" alt="austen"></p>
+            <p><img src="/photo/logo.png" alt="logo"></p>
+            <p><img id="sponsor" src="/photo/austen.jpg" alt="austen"></p>
         </div>
     </div>
     <div id="footer">© Copyright 2016 Gideon Ho. All Rights Reserved.</div>
