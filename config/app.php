@@ -40,6 +40,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'storage_url' => 'http://www.gideonho.com/p4/storage/app/',
 
     /*
     |--------------------------------------------------------------------------
