@@ -202,6 +202,7 @@ class JobController extends Controller {
         //$extension = \File::extension($file);
         //echo $extension;
         $storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+        $storagePath = \Config::get('app.url').'/storage/app/';
         $pathToFile = $storagePath.$candidate->resume;
         //$pathToFile = Input::file('$candidate->resume')
         //dump($pathToFile);

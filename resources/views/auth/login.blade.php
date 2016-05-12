@@ -34,11 +34,6 @@
             <input type='password' name='password' id='password' value='{{ old('password') }}' class="form-control">
         </div>
 
-        <div class='form-group'>
-            <label for='remember'>Remember me</label>
-            <input type='checkbox' name='remember' id='remember' style="text-align: left; height: 20px; width: 20px;"> 
-        </div>
-
         <button type='submit' class='btn btn-primary'>Login</button>
 
     </form>

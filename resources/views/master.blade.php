@@ -20,7 +20,9 @@
             <h3>Control Panel</h3>
                 @if(Auth::check())
                     Job: <a href="/jobs/create" class='link'>Add</a> | <a href="/jobs/show" class='link'>Manage</a><br>
-                    Recruiter: <a href="/recruiters/create" class='link'>Add</a> | <a href="/recruiters/show" class='link'>Manage</a><br>
+                    @if($user->role_id > 1)
+                        Recruiter: <a href="/recruiters/create" class='link'>Add</a> | <a href="/recruiters/show" class='link'>Manage</a><br>
+                    @endif
                     Profile: 
                         <a href="/logout" class='link'>Log Out</a> | 
                         <a href="/candidates/create/" class='link'>Add</a> |

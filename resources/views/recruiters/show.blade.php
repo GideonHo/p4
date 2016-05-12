@@ -42,8 +42,12 @@
 	        	</tr>
 			</table>
 
-	        <a href='/recruiters/edit/{{$id}}'>Edit</a> |
-			<a href="/recruiters/delete/{{$id}}">Delete</a>
+	        @if(Auth::check())
+	            @if($user->role_id > 1)
+		        <a href='/recruiters/edit/{{$id}}'>Edit</a> |
+				<a href="/recruiters/delete/{{$id}}">Delete</a>
+	            @endif
+	        @endif
 		</div>
 
     @else
