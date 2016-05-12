@@ -55,7 +55,8 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    //'from' => ['address' => null, 'name' => null],
+    'from' => array('address' => 'finjob@gideonho.com', 'name' => 'FinJob'),
 
     /*
     |--------------------------------------------------------------------------

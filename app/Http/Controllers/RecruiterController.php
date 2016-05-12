@@ -8,9 +8,21 @@ use Illuminate\Support\MessageBag;
 
 class RecruiterController extends Controller {
 
+    function getIndex() {
+        $recruiters = \App\Recruiter::orderBy('name','asc')->get();
+        $tags = \App\Tag::all();
+        return view('recruiters.index')->with([
+            'recruiters' => $recruiters,
+            'tags' => $tags
+        ]);
+    }
+
     public function getShow($id = null) {
-        #return 'Show me an individual recruiter: '.$id;
-        return view('recruiters.show')->with('id', $id);
+        $recruiter = \App\Recruiter::find($id);
+        return view('recruiters.show',[
+            'recruiter' => $recruiter,
+            'id' => $id
+        ]);
     }
 
     public function getCreate() {
@@ -19,39 +31,74 @@ class RecruiterController extends Controller {
 
     public function postCreate(Request $request) {
         $this->validate($request,[
-            'title'=>'required|min:3',
-            'author'=>'required|min:3'
+            'name'=>'required',
+            'address'=>'required',
+            'email'=>'required',
+            'website'=>'required',
+            'logo'=>'required'
         ]);
 
-        return 'Recruiter added: '.$request->input('title');
+        $recruiter = new \App\Recruiter();
+        $recruiter->name = $request->input('name');
+        $recruiter->address = $request->input('address');
+        $recruiter->email = $request->input('email');
+        $recruiter->website = $request->input('website');
+        $recruiter->logo = $request->input('logo');
+        $recruiter->save();
+
+        \Session::flash('message',$recruiter->name.' has been added.');
+
+        $id = $recruiter->id;
+
+        return view('recruiters.show',[
+            'recruiter' => $recruiter,
+            'id' => $id
+        ]);
     }
 
     public function getEdit($id = null) {
-        return view('recruiters.edit')->with('id',$id);    
+        $recruiter = \App\Recruiter::find($id);
+
+        return view('recruiters.edit',[
+            'recruiter' => $recruiter
+        ]);
     }
 
     public function postEdit(Request $request) {
         $this->validate($request,[
-            'title'=>'required|min:3',
-            'author'=>'required|min:3'
+            'name'=>'required',
+            'address'=>'required',
+            'email'=>'required',
+            'website'=>'required',
+            'logo'=>'required'
         ]);
 
-        return 'Recruiter edited: '.$request->input('title').' by '.$request->input('author');
+        //echo $request->input('name');
+
+        $recruiter = \App\Recruiter::find($request->input('id'));
+        $recruiter->name = $request->input('name');
+        $recruiter->address = $request->input('address');
+        $recruiter->email = $request->input('email');
+        $recruiter->website = $request->input('website');
+        $recruiter->logo = $request->input('logo');
+        $recruiter->save();
+
+        \Session::flash('message',$recruiter->name.' has been edited.');
+
+        return view('recruiters.show',[
+            'recruiter' => $recruiter,
+            'id' => $request->input('id')
+        ]);
+
+        #return 'Recruiter edited: '.$request->input('title').' by '.$request->input('author');
         #return redirect('/jobs/edit/{$id}');
     }
 
     public function getDelete($id = null) {
-        return view('recruiters.delete')->with('id',$id);    
-    }
-
-    public function postDelete(Request $request) {
-        $this->validate($request,[
-            'title'=>'required|min:3',
-            'author'=>'required|min:3'
-        ]);
-
-        return 'Recruiter deleted: '.$request->input('title').' by '.$request->input('author');
-        #return redirect('/jobs/edit/{$id}');
+        $recruiter = \App\Recruiter::find($id);
+        \Session::flash('message',$recruiter->name.' has been deleted.');
+        $recruiter->delete();
+        return redirect('/recruiters/show');
     }
 
 }

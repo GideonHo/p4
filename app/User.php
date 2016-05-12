@@ -23,4 +23,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function jobs() {
+        return $this->belongsToMany('\App\Job')->withTimestamps();
+    }
+
+    public function candidates() {
+        # Define a one-to-many relationship.
+        return $this->hasMany('\App\Candidate');
+    }
 }

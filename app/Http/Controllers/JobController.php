@@ -8,51 +8,347 @@ use Illuminate\Support\MessageBag;
 
 class JobController extends Controller {
 
+    function getIndex() {
+        $jobs = \App\Job::orderBy('updated_at','desc')->get();
+        $sub_title = 'All Jobs';
+
+        return view('jobs.index')->with([
+            'jobs' => $jobs,
+            'this' => $sub_title
+        ]);
+    }
+
     public function getShow($id = null) {
         #return 'Show me an individual job: '.$id;
-        return view('jobs.show')->with('id', $id);
+        $job = \App\Job::find($id);
+        $location = \App\Location::find($job->location_id);
+
+        return view('jobs.show',[
+            'job' => $job,
+            'location' => $location,
+            'id' => $id
+        ]);
+    }
+
+    public function getShowTag($id = null) {
+        #return 'Show me an individual job: '.$id;
+        $jobs = \App\Tag::find($id)->jobs()->get();
+        $tag_in_focus = \App\Tag::find($id);
+        $sub_title = $tag_in_focus->name.' Jobs';
+
+        return view('jobs.index')->with([
+            'jobs' => $jobs,
+            'this' => $sub_title
+        ]);
+    }
+
+    public function getShowLocation($id = null) {
+        #return 'Show me an individual job: '.$id;
+        $jobs = \App\Job::where('location_id','=',$id)
+            ->orderBy('updated_at','desc')
+            ->get();
+        $location_in_focus = \App\Location::find($id);
+        $sub_title = $location_in_focus->name.' Jobs';
+
+        return view('jobs.index')->with([
+            'jobs' => $jobs,
+            'this' => $sub_title
+        ]);
     }
 
     public function getCreate() {
-        return view('jobs.create');    
+        $recruiters_for_dropdown = \App\Recruiter::recruitersForDropdown();
+        $jobtypes_for_dropdown = \App\JobType::jobtypesForDropdown();
+        $locations_for_dropdown = \App\Location::locationsForDropdown();
+        $tags_for_checkboxes = \App\Tag::getTagsForCheckboxes();
+
+        return view('jobs.create')->with([
+            'recruiters_for_dropdown' => $recruiters_for_dropdown,
+            'jobtypes_for_dropdown' => $jobtypes_for_dropdown,
+            'locations_for_dropdown' => $locations_for_dropdown,
+            'tags_for_checkboxes' => $tags_for_checkboxes
+        ]);    
     }
 
     public function postCreate(Request $request) {
         $this->validate($request,[
             'title'=>'required|min:3',
-            'author'=>'required|min:3'
+            'recruiter_id' => 'not_in:0',
+            'job_type_id' => 'not_in:0',
+            'location_id' => 'not_in:0',
+            'description'=>'required'
         ]);
 
-        return 'Add a Job: '.$request->input('title');
-        #return redirect('/books');
+        $job = new \App\Job();
+        $job->expired_at = \Carbon\Carbon::now()->addMonths(1);
+        $job->title = $request->title;
+        $job->recruiter_id = $request->recruiter_id;
+        $job->job_type_id = $request->job_type_id;
+        $job->location_id = $request->location_id;
+        $job->description = $request->description;
+        $job->save();
+
+        \Session::flash('message',$job->title.' has been added.');
+
+        # Save Tags
+        if($request->tags) {
+            $tags = $request->tags;
+        }
+        else {
+            $tags = [];
+        }
+
+        $job->tags()->sync($tags);
+        $job->save();
+
+        return redirect('/');
     }
 
     public function getEdit($id = null) {
-        return view('jobs.edit')->with('id',$id);    
+        $job = \App\Job::find($id);
+        $recruiters_for_dropdown = \App\Recruiter::recruitersForDropdown();
+        $jobtypes_for_dropdown = \App\JobType::jobtypesForDropdown();
+        $locations_for_dropdown = \App\Location::locationsForDropdown();
+        $tags_for_checkboxes = \App\Tag::getTagsForCheckboxes();
+        $tags_for_this_job = [];
+        foreach($job->tags as $tag) {
+            $tags_for_this_job[] = $tag->name;
+        }
+
+        return view('jobs.edit',[
+            'recruiters_for_dropdown' => $recruiters_for_dropdown,
+            'jobtypes_for_dropdown' => $jobtypes_for_dropdown,
+            'locations_for_dropdown' => $locations_for_dropdown,
+            'tags_for_checkboxes' => $tags_for_checkboxes,
+            'tags_for_this_job' => $tags_for_this_job,
+            'job' => $job,
+            'id' => $id
+        ]);
     }
 
     public function postEdit(Request $request) {
         $this->validate($request,[
             'title'=>'required|min:3',
-            'author'=>'required|min:3'
+            'recruiter_id' => 'not_in:0',
+            'job_type_id' => 'not_in:0',
+            'location_id' => 'not_in:0',
+            'description'=>'required'
         ]);
 
-        return 'Job edited: '.$request->input('title').' by '.$request->input('author');
-        #return redirect('/jobs/edit/{$id}');
+        $job = \App\Job::find($request->id);
+        $job->title = $request->title;
+        $job->recruiter_id = $request->recruiter_id;
+        $job->job_type_id = $request->job_type_id;
+        $job->location_id = $request->location_id;
+        $job->description = $request->description;
+        $job->save();
+
+        \Session::flash('message',$job->title.' has been edited.');
+
+        $location = \App\Location::find($job->location_id);
+
+        # Save Tags
+        if($request->tags) {
+            $tags = $request->tags;
+        }
+        else {
+            $tags = [];
+        }
+
+        $job->tags()->sync($tags);
+        $job->save();
+
+        return view('jobs.show',[
+            'job' => $job,
+            'location' => $location,
+            'id' => $request->id
+        ]);
+
+        echo $request->id;
     }
 
     public function getDelete($id = null) {
-        return view('jobs.delete')->with('id',$id);    
+        $job = \App\Job::find($id);
+
+        if($job->tags()) {
+            $job->tags()->detach();
+        }
+
+        $job->delete();
+
+        \Session::flash('message',$job->title.' has been deleted.');
+        return redirect('/');
     }
 
-    public function postDelete(Request $request) {
-        $this->validate($request,[
-            'title'=>'required|min:3',
-            'author'=>'required|min:3'
+    public function getApply($id = null) {
+        $user = \Auth::user();
+        if(!$user) return redirect()->guest('login');
+        $job = \App\Job::find($id);
+        $location = \App\Location::find($job->location_id);
+        $candidate = \App\Candidate::where('user_id','=',$user->id)->first();
+        $pathToFile = 'C:/xampp/htdocs/p4/storage/app/'.$candidate->resume.'.pdf';
+
+        $data = array(
+            'user' => $user,
+            'job' => $job,
+            'pathToFile' => $pathToFile
+        );
+
+        \Mail::send('jobs.apply', $data, function($message) use ($user,$job,$pathToFile) {
+            $recipient_email = $user->email;
+            $recipient_name  = $user->name;
+            $subject = 'You have applied for '.$job->title.' in FinJob';
+            $message
+                ->to($recipient_email, $recipient_name)
+                ->attach($pathToFile)
+                ->subject($subject);
+        });
+
+        $exist = \DB::table('job_user')
+            ->where('user_id','=',$user->id)
+            ->where('job_id','=',$job->id)
+            ->get();
+
+        if(!$exist){
+            \DB::table('job_user')->insert([
+                'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'user_id' => $user->id,
+                'job_id' => $job->id,
+                'applied' => 1
+            ]);
+        }            
+        else{
+            \DB::table('job_user')
+            ->where('user_id','=',$user->id)
+            ->where('job_id','=',$job->id)
+            ->update([
+                'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'applied' => 1
+            ]);
+        }
+
+        \Session::flash('message', 'You have applied for '.$job->title);
+
+        $jobs = \App\User::find($user->id)
+            ->jobs()
+            ->where('applied','=', 1)
+            ->orderBy('updated_at','desc')
+            ->get();
+        $sub_title = 'Applied Jobs';
+
+        return view('jobs.index')->with([
+            'jobs' => $jobs,
+            'this' => $sub_title
+        ]);
+    }
+
+    public function getAppliedJob($id = null) {
+        $user = \App\User::find($id);
+        if(!$user) return redirect()->guest('login');
+        $jobs = \App\User::find($id)
+            ->jobs()
+            ->where('applied','=', 1)
+            ->orderBy('updated_at','desc')
+            ->get();
+        $sub_title = 'Applied Jobs';
+
+        return view('jobs.index')->with([
+            'jobs' => $jobs,
+            'this' => $sub_title
+        ]);
+    }
+
+    public function getSave($id = null) {
+        $user = \Auth::user();
+        if(!$user) return redirect()->guest('login');
+        $job = \App\Job::find($id);
+        $location = \App\Location::find($job->location_id);
+
+        echo $job->id.' and '.$user->id;
+
+        $exist = \DB::table('job_user')
+            ->where('user_id','=',$user->id)
+            ->where('job_id','=',$job->id)
+            ->get();
+
+        if(!$exist){
+            \DB::table('job_user')->insert([
+                'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'user_id' => $user->id,
+                'job_id' => $job->id,
+                'saved' => 1
+            ]);
+        }            
+        else{
+            \DB::table('job_user')
+            ->where('user_id','=',$user->id)
+            ->where('job_id','=',$job->id)
+            ->update([
+                'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'saved' => 1
+            ]);
+        }
+
+        \Session::flash('message', 'You have saved '.$job->title);
+
+        $jobs = \App\User::find($user->id)->jobs()->where('saved','=', 1)->get();
+
+        return view('jobs.saved_job')->with([
+            'jobs' => $jobs
+        ]);
+    }
+
+    public function getUnSave($id = null) {
+        $user = \Auth::user();
+        if(!$user) return redirect()->guest('login');
+        $job = \App\Job::find($id);
+        $location = \App\Location::find($job->location_id);
+
+        \DB::table('job_user')
+        ->where('user_id','=',$user->id)
+        ->where('job_id','=',$job->id)
+        ->update([
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'saved' => 0
         ]);
 
-        return 'Job deleted: '.$request->input('title').' by '.$request->input('author');
-        #return redirect('/jobs/edit/{$id}');
+        \Session::flash('message', 'You have unsaved '.$job->title);
+
+        $jobs = \App\User::find($user->id)->jobs()->where('saved','=', 1)->get();
+
+        return view('jobs.saved_job')->with([
+            'jobs' => $jobs
+        ]);
+    }
+
+    public function getSavedJob($id = null) {
+        $user = \App\User::find($id);
+        if(!$user) return redirect()->guest('login');
+        $jobs = \App\User::find($id)
+            ->jobs()
+            ->where('saved','=', 1)
+            ->orderBy('updated_at','desc')
+            ->get();
+
+        return view('jobs.saved_job')->with([
+            'jobs' => $jobs
+        ]);
+    }
+
+    public function getViewedJob($id = null) {
+        $user = \App\User::find($id);
+        if(!$user) return redirect()->guest('login');
+         
+        $jobs = \App\User::find($id)->jobs()->where('viewed','=', 1)->get();
+
+        $tags = \App\Tag::all();
+
+        return view('jobs.index')->with([
+            'jobs' => $jobs,
+            'tags' => $tags
+        ]);
     }
 
 }

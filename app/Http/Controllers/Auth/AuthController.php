@@ -21,24 +21,34 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+        use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
+    # Where should the user be redirected to if their login fails?
+        protected $loginPath = '/login';
+
+
+    # Where should the user be redirected to after logging out?
+        protected $redirectAfterLogout = '/login';
+
 
     /**
      * Where to redirect users after login / registration.
      *
      * @var string
      */
-    protected $redirectTo = '/';
+        protected $redirectTo = '/';
+
 
     /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
-    }
+        public function __construct()
+        {
+            $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -46,27 +56,46 @@ class AuthController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
-    }
+        protected function validator(array $data)
+        {
+            return Validator::make($data, [
+                'name' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|min:6|confirmed',
+            ]);
+        }
+
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
-    }
+        protected function create(array $data)
+        {
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);
+        }
+
+
+    /**
+     * Log the user out of the application.
+     *
+     * @return \Illuminate\Http\Response
+     */
+        public function logout()
+        {
+            \Auth::logout();
+
+            # This line is our new addition to this method
+            \Session::flash('message','You have been logged out.');
+
+            return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
+        }
+
+        
 }

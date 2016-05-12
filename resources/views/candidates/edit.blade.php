@@ -10,29 +10,28 @@
 
 @section('main')
 
-    <h1>Edit candidate profile</h1>
+    <h1>Edit candidate profile</h1><br>
 
     <form method='POST' action='/candidates/edit/{id?}'>
 
         {{ csrf_field() }}
 
         <div class='form-group'>
-           	<label>* Title:</label>
-           	<input type='text' id='title' name='title' value='{{ old('title') }}'>
-           	<div class='error'>
-           		{{ $errors->first('title') }}
-           	</div>
+            <label>* Resume:</label>
+            <!--<input type='text' id='resume' name='resume' value='{{ $candidates->resume or ' ' }}'>-->
+            <select id='resume' name='resume' class="form-control">
+                @foreach($candidates as $candidate)
+                     <option value='{{$candidate->id}}'>
+                         {{$candidate->resume}}
+                     </option>
+                 @endforeach
+            </select>
+            <div class='error'>
+              {{ $errors->first('resume') }}
+            </div>
         </div>
 
-        <div class='form-group'>
-           	<label>* Author:</label>
-           	<input type='text' id='author' name='author'value='{{ old('author') }}'>
-           	<div class='error'>
-           		{{ $errors->first('author') }}
-           	</div>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Edit Candidate</button>
+        <button type="submit" class="btn btn-primary">Remove Resume</button>
 
 		{{--<ul class=''>
 			@foreach($errors->all() as $error)

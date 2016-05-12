@@ -10,27 +10,51 @@
 
 @section('main')
 
-    <h1>Add a new recruiter</h1>
+    <h1 style='margin-bottom: 1em;'>Add Recruiter profile</h1>
 
     <form method='POST' action='/recruiters/create'>
 
         {{ csrf_field() }}
 
         <div class='form-group'>
-           	<label>* Title:</label>
-           	<input type='text' id='title' name='title' value='{{ old('title') }}'>
+           	<label>* Company Name:</label>
+           	<input type='text' id='name' name='name' value='{{ old('name') }}' class="form-control">
            	<div class='error'>
-           		{{ $errors->first('title') }}
+           		{{ $errors->first('name') }}
            	</div>
         </div>
 
         <div class='form-group'>
-           	<label>* Author:</label>
-           	<input type='text' id='author' name='author'value='{{ old('author') }}'>
+           	<label>* Address:</label>
+           	<input type='text' id='address' name='address' value='{{ old('address') }}' class="form-control">
            	<div class='error'>
-           		{{ $errors->first('author') }}
+           		{{ $errors->first('address') }}
            	</div>
         </div>
+
+        <div class='form-group'>
+            <label>* Email:</label>
+            <input type='text' id='email' name='email' value='{{ old('email') }}' class="form-control">
+            <div class='error'>
+              {{ $errors->first('email') }}
+            </div>
+        </div>
+
+        <div class='form-group'>
+            <label>* Website:</label>
+            <input type='text' id='website' name='website' value='{{ old('website') }}' class="form-control">
+            <div class='error'>
+              {{ $errors->first('website') }}
+            </div>
+        </div>  
+
+        <div class='form-group'>
+            <label>* Logo Link:</label>
+            <input type='text' id='logo' name='logo' value='{{ old('logo') }}' class="form-control">
+            <div class='error'>
+              {{ $errors->first('logo') }}
+            </div>
+        </div>  
 
         <button type="submit" class="btn btn-primary">Add Recruiter</button>
 
