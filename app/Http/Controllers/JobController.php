@@ -86,6 +86,7 @@ class JobController extends Controller {
         $job->job_type_id = $request->job_type_id;
         $job->location_id = $request->location_id;
         $job->description = $request->description;
+        $job->author_id = $request->author_id;
         $job->save();
 
         \Session::flash('message',$job->title.' has been added.');
@@ -182,11 +183,28 @@ class JobController extends Controller {
 
     public function getApply($id = null) {
         $user = \Auth::user();
+        $candidates = \App\Candidate::where('user_id','=',$user->id)->orderBy('updated_at','desc')->get();
+
+        return view('jobs.apply')->with([
+            'id' => $id,
+            'candidates' => $candidates
+        ]);    
+    }
+
+    public function getApplication($id = null) {
+        $user = \Auth::user();
         if(!$user) return redirect()->guest('login');
         $job = \App\Job::find($id);
         $location = \App\Location::find($job->location_id);
         $candidate = \App\Candidate::where('user_id','=',$user->id)->first();
-        $pathToFile = 'C:/xampp/htdocs/p4/storage/app/'.$candidate->resume.'.pdf';
+        //$pathToFile = 'C:/xampp/htdocs/p4/storage/app/'.$candidate->resume.'.pdf';
+        //$file = \Storage::disk('local')->get($candidate->resume);
+        //$extension = \File::extension($file);
+        //echo $extension;
+        $storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+        $pathToFile = $storagePath.$candidate->resume;
+        //$pathToFile = Input::file('$candidate->resume')
+        //dump($pathToFile);
 
         $data = array(
             'user' => $user,
@@ -194,7 +212,7 @@ class JobController extends Controller {
             'pathToFile' => $pathToFile
         );
 
-        \Mail::send('jobs.apply', $data, function($message) use ($user,$job,$pathToFile) {
+        \Mail::send('jobs.application', $data, function($message) use ($user,$job,$pathToFile) {
             $recipient_email = $user->email;
             $recipient_name  = $user->name;
             $subject = 'You have applied for '.$job->title.' in FinJob';
@@ -264,8 +282,6 @@ class JobController extends Controller {
         if(!$user) return redirect()->guest('login');
         $job = \App\Job::find($id);
         $location = \App\Location::find($job->location_id);
-
-        echo $job->id.' and '.$user->id;
 
         $exist = \DB::table('job_user')
             ->where('user_id','=',$user->id)

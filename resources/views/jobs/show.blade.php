@@ -26,10 +26,14 @@
         <h2>Descritpion</h2>
         <p>{{ $job->description }}</p><br>
         
-        <a href="/jobs/apply/{{$id}}">Apply</a> |
-        <a href='/jobs/edit/{{$id}}'>Edit</a> |
-		<a href="/jobs/delete/{{$id}}">Delete</a> |
-        <a href="/jobs/save/{{$id}}">Save</a>
+        <a href='/jobs/apply/{{$job->id}}'>Apply</a> |
+        @if(Auth::check())
+            @if(($job->author_id == $user->id)or($user->role_id > 1))
+                <a href='/jobs/edit/{{$job->id}}'>Edit</a> |
+                <a href="/jobs/delete/{{$job->id}}">Delete</a> |
+            @endif
+        @endif
+        <a href="/jobs/save/{{$job->id}}">Save</a><br>
 
     @else
         <h1>No job chosen</h1>

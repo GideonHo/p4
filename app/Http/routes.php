@@ -13,13 +13,15 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/jobs/edit/{id?}', 'JobController@getEdit');
     Route::post('/jobs/edit/{id?}', 'JobController@postEdit');
     Route::get('/jobs/delete/{id?}', 'JobController@getDelete');
+    Route::get('/jobs/apply/{id?}', 'JobController@getApply');
+    Route::get('/jobs/applied/{id?}', 'JobController@getAppliedJob');
+    Route::get('/jobs/application/{id?}', 'JobController@getApplication');
+    Route::get('/jobs/save/{id?}', 'JobController@getSave');
+    Route::get('/jobs/saved/{id?}', 'JobController@getSavedJob');
+    Route::get('/jobs/unsave/{id?}', 'JobController@getUnSave');
 });
-Route::get('/jobs/apply/{id?}', 'JobController@getApply');
-Route::get('/jobs/applied/{id?}', 'JobController@getAppliedJob');
-Route::get('/jobs/save/{id?}', 'JobController@getSave');
-Route::get('/jobs/saved/{id?}', 'JobController@getSavedJob');
-Route::get('/jobs/viewed/{id?}', 'JobController@getViewedJob');
-Route::get('/jobs/unsave/{id?}', 'JobController@getUnSave');
+//Route::post('/jobs/apply/{id?}', 'JobController@postApply');
+//Route::get('/jobs/viewed/{id?}', 'JobController@getViewedJob');
 
 /* RecruiterController and its methods */
 Route::get('/recruiters/show', 'RecruiterController@getIndex');
@@ -102,3 +104,17 @@ Route::get('/practice', function () {
 Route::get('/index', function () {
     	return view('index');
 });
+
+/* Recreate databases */
+
+if(App::environment('local')) {
+
+    Route::get('/drop', function() {
+
+        DB::statement('DROP database p4');
+        DB::statement('CREATE database p4');
+
+        return 'Dropped p4; created p4.';
+    });
+
+};

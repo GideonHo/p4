@@ -19,6 +19,9 @@
     @endif
 
     <form method='POST' action='/register'>
+
+        <input type='hidden' name='role_id' id='role_id' value='1'>
+
         {!! csrf_field() !!}
 
         <div class='form-group'>

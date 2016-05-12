@@ -32,4 +32,9 @@ class User extends Authenticatable
         # Define a one-to-many relationship.
         return $this->hasMany('\App\Candidate');
     }
+
+    public function authors() {
+        # Define a one-to-many relationship.
+        return $this->hasMany('\App\Job');
+    }
 }

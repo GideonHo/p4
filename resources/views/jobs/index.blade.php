@@ -27,8 +27,12 @@
                     Updated at: {{$job->updated_at}}
                     <br>
                     <a href='/jobs/apply/{{$job->id}}'>Apply</a> |
-                    <a href='/jobs/edit/{{$job->id}}'>Edit</a> |
-                    <a href="/jobs/delete/{{$job->id}}">Delete</a> |
+                    @if(Auth::check())
+                        @if(($job->author_id == $user->id)or($user->role_id > 1))
+                            <a href='/jobs/edit/{{$job->id}}'>Edit</a> |
+                            <a href="/jobs/delete/{{$job->id}}">Delete</a> |
+                        @endif
+                    @endif
                     <a href="/jobs/save/{{$job->id}}">Save</a><br>
                     </p>
                 </section>

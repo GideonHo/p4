@@ -14,6 +14,8 @@
 
     <form method='POST' action='/jobs/create'>
 
+        <input type='hidden' id='author_id' name='author_id' value='{{ $user->id }}'  >
+
         {{ csrf_field() }}
 
         <div class='form-group'>
