@@ -49,7 +49,7 @@
         {{ storage_path() }};
 
         <button type="submit" class="btn btn-primary">
-        <a href='storage_path()'."/Curriculum Vitae (AA) - Gideon Ho.pdf" style='color: white;'>
+        <a href='public_path()'."/Curriculum Vitae (AA) - Gideon Ho.pdf" style='color: white;'>
             Resume
         </a>
         </button>
