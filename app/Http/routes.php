@@ -14,6 +14,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/jobs/edit/{id?}', 'JobController@postEdit');
     Route::get('/jobs/delete/{id?}', 'JobController@getDelete');
     Route::get('/jobs/apply/{id?}', 'JobController@getApply');
+    Route::post('/jobs/apply/{id?}', 'JobController@postApply');
     Route::get('/jobs/applied/{id?}', 'JobController@getAppliedJob');
     Route::get('/jobs/application/{id?}', 'JobController@getApplication');
     Route::get('/jobs/save/{id?}', 'JobController@getSave');

@@ -191,6 +191,17 @@ class JobController extends Controller {
         ]);    
     }
 
+    public function postApply(Request $request) {
+        $user = \Auth::user();
+        $candidate = \App\Candidate::where('user_id','=',$user->id)->first();
+
+        $storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+        $pathToFile = $storagePath.$candidate->resume;
+
+        $handle = fopen($pathToFile, "r");
+
+    }
+
     public function getApplication($id = null) {
         $user = \Auth::user();
         if(!$user) return redirect()->guest('login');
@@ -201,10 +212,13 @@ class JobController extends Controller {
         //$file = \Storage::disk('local')->get($candidate->resume);
         //$extension = \File::extension($file);
         //echo $extension;
-        //$storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+        $storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
         //$storagePath = \Config::get('app.url').'/storage/app/';
-        $storagePath = \Config::get('app.storage_url');
+        //$storagePath = \Config::get('app.storage_url');
         $pathToFile = $storagePath.$candidate->resume;
+
+        echo $pathToFile;
+
         //$pathToFile = Input::file('$candidate->resume')
         //dump($pathToFile);
 
