@@ -3,8 +3,8 @@
 ## Description:
 This project is about a job application portal which allows users to perform the following functions:
 
-[1. Add Job](http://p4.gideonho.com/jobs/create)
-[2. View Job](http://p4.gideonho.com/jobs/show/1)
+1. [1. Add Job](http://p4.gideonho.com/jobs/create)
+2. [2. View Job](http://p4.gideonho.com/jobs/show/1)
 [3. View Job by Tabs](http://p4.gideonho.com/jobs/tag/2)
 [4. View Job by Locations](http://p4.gideonho.com/jobs/location/3)
 [5. Edit Job](http://p4.gideonho.com/jobs/edit/1)
