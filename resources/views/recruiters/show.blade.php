@@ -11,7 +11,7 @@
 @section('sub-title')
     @if($id)
 	    <div style='float: left'>
-			<img class='cover' src='{{Config::get('app.url').':81/'.$recruiter->logo}}' style='border: none; min-height: 100px; width: auto; min-width: 300px'>
+			<img class='cover' src='{{$recruiter->logo}}' style='border: none; min-height: 100px; width: auto; min-width: 300px'>
 		</div>
 	@endif
 @stop
