@@ -44,6 +44,11 @@
             Send Resume
           </a>
         </button>
+        <!--
+          <button type="submit" class="btn btn-primary">
+            Download Resume
+          </button>
+        -->
 
 		{{--<ul class=''>
 			@foreach($errors->all() as $error)

@@ -197,8 +197,11 @@ class JobController extends Controller {
 
         $storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
         $pathToFile = $storagePath.$candidate->resume;
-
-        $handle = fopen($pathToFile, "r");
+        
+        $headers = array(
+              'Content-Type: application/pdf',
+            );
+        return \Response::download($pathToFile, 'Resume.pdf', $headers);
 
     }
 
@@ -213,11 +216,11 @@ class JobController extends Controller {
         //$extension = \File::extension($file);
         //echo $extension;
         //$storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
-        $storagePath = \Config::get('app.url').'/storage/app/';
+        //$storagePath = \Config::get('app.url').'/storage/app/';
         //$storagePath = \Config::get('app.storage_url');
+        //$storagePath = public_path();
+        $storagePath = '128.199.155.224/storage/app/';
         $pathToFile = $storagePath.$candidate->resume;
-
-        echo $pathToFile;
 
         //$pathToFile = Input::file('$candidate->resume')
         //dump($pathToFile);
