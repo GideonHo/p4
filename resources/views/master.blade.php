@@ -64,7 +64,7 @@
         <div id="sidebar">
             <h3>Employers:</h3>
                 @foreach($recruiters as $recruiter)
-                    <a href="/recruiters/show/{{$recruiter->id}}" class='link'><p><img src="{{Config::get('app.url').':81/'.$recruiter->logo}}"></p></a><br>
+                    <a href="/recruiters/show/{{$recruiter->id}}" class='link'><p><img src="{{$recruiter->logo}}"></p></a><br>
                 @endforeach
         </div>
 
