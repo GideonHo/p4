@@ -46,7 +46,7 @@
           </a>
         </button>
 
-        {{ storage_path() }};
+        {{ public_path() }};
 
         <button type="submit" class="btn btn-primary">
         <a href='public_path()'."/Curriculum Vitae (AA) - Gideon Ho.pdf" style='color: white;'>
