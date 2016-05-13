@@ -1,3 +1,5 @@
+<img class='cover' src='{{$recruiter->logo}}' style='border: none; min-height: 100px; width: auto; min-width: 300px'>
+
 @extends('master')
 
 @section('title')

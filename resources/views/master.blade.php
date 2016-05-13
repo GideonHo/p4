@@ -64,7 +64,7 @@
         <div id="sidebar">
             <h3>Employers:</h3>
                 @foreach($recruiters as $recruiter)
-                    <img src="{{$recruiter->logo}}"><br>
+                    <a href="/recruiters/show/{{$recruiter->id}}" class='link'><p><img src="{{$recruiter->logo}}"></p></a><br>
                 @endforeach
         </div>
 
