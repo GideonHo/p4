@@ -46,12 +46,6 @@
           </a>
         </button>
 
-        <form method="get" action="">
-            <button type="submit" class="btn btn-primary">
-                Download
-            </button>
-        </form>
-
     </form>
 
 @stop

@@ -215,29 +215,29 @@ class JobController extends Controller {
         //$file = \Storage::disk('local')->get($candidate->resume);
         //$extension = \File::extension($file);
         //echo $extension;
-        $storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+        //$storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
         //$storagePath = \Config::get('app.url').'/storage/app/';
         //$storagePath = \Config::get('app.storage_url');
         //$storagePath = public_path();
         //$storagePath = '128.199.155.224/storage/app/';
-        $pathToFile = $storagePath.$candidate->resume;
+        //$pathToFile = $storagePath.$candidate->resume;
 
         //$pathToFile = Input::file('$candidate->resume')
         //dump($pathToFile);
 
         $data = array(
             'user' => $user,
-            'job' => $job,
-            'pathToFile' => $pathToFile
+            'job' => $job//,
+            //'pathToFile' => $pathToFile
         );
 
-        \Mail::send('jobs.application', $data, function($message) use ($user,$job,$pathToFile) {
+        \Mail::send('jobs.application', $data, function($message) use ($user,$job) { //,$pathToFile) {
             $recipient_email = $user->email;
             $recipient_name  = $user->name;
             $subject = 'You have applied for '.$job->title.' in FinJob';
             $message
                 ->to($recipient_email, $recipient_name)
-                ->attach($pathToFile)
+                //->attach($pathToFile)
                 ->subject($subject);
         });
 
