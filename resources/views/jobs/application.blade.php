@@ -11,7 +11,7 @@
 <div>
     <h2>{{ $job->title }}</h2>
     <h3>By {{ $job->recruiter->name }}</h3>
-    <a href='{{ Config::get('app.url').'/candidates/show/'.$job->id}}'>View now...</a>
+    <a href='{{ 'http://p4.gideonho.com/candidates/show/'.$job->id}}'>View now...</a>
 </div>
 
 <p>
