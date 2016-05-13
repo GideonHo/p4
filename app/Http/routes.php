@@ -119,3 +119,19 @@ if(App::environment('local')) {
     });
 
 };
+
+/* Test file database */
+
+Route::get('/upload_form', function()
+{
+    return view('candidates.upload');
+});
+
+Route::post('/upload_file', function(Request $request)
+{
+    $att = new \App\Attachment();
+    $att->name = 'Test';
+    $att->file = $request->file;
+    $att->save();
+    return Redirect::to('/upload_form');
+});

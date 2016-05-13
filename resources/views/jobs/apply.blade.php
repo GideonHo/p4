@@ -39,28 +39,21 @@
             Add Resume
           </a>
         </button>
+        
         <button type="submit" class="btn btn-primary">
           <a href="/jobs/application/{{$id}}" style='color: white;'>
             Send Resume
           </a>
         </button>
-        <!--
-          <button type="submit" class="btn btn-primary">
-            Download Resume
-          </button>
-        -->
 
-		{{--<ul class=''>
-			@foreach($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
-		</ul>--}}
+        {{ storage_path() }};
 
-		<div class='error'>
-			@if(count($errors)>0)
-				Please corect the error above and re-submit.
-			@endif
-		</div>
+        <button type="submit" class="btn btn-primary">
+        <a href='storage_path()'."/Curriculum Vitae (AA) - Gideon Ho.pdf" style='color: white;'>
+            Resume
+        </a>
+        </button>
+
 
     </form>
 @stop
