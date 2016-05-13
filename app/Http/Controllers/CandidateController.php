@@ -9,8 +9,12 @@ use Illuminate\Support\MessageBag;
 class CandidateController extends Controller {
 
     public function getShow($id = null) {
-        #return 'Show me an individual job: '.$id;
-        return view('candidates.show')->with('id', $id);
+        $candidates = \App\Candidate::where('user_id','=',$id)->orderBy('updated_at','desc')->get();
+
+        return view('candidates.show')->with([
+            'id' => $id,
+            'candidates' => $candidates
+        ]);     
     }
 
     public function getCreate() {

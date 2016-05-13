@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('title')
-    Edit candidate profile
+    Select a resume for your application
 @stop
 
 @section('head')
@@ -10,40 +10,29 @@
 
 @section('main')
 
-    <h1>Edit candidate profile</h1><br>
+    <h1>View Application</h1><br>
 
-    <form method='POST' action='/candidates/show/{id?}'>
+    <form method='POST' action='/jobs/apply/{id?}'>
+
+        <input type='hidden' id='id' name='id' value='{{$id}}'>
 
         {{ csrf_field() }}
 
         <div class='form-group'>
             <label>* Resume:</label>
-            <!--<input type='text' id='resume' name='resume' value='{{ $candidates->resume or ' ' }}'>-->
-            <select id='resume' name='resume' class="form-control">
-                @foreach($candidates as $candidate)
-                     <option value='{{$candidate->id}}'>
-                         {{$candidate->resume}}
-                     </option>
-                 @endforeach
-            </select>
-            <div class='error'>
-              {{ $errors->first('resume') }}
-            </div>
+              <select class="form-control">
+                  @foreach($candidates as $candidate)
+                  echo $candidate->resume;
+                       <option id='resume' name='resume' value='{{$candidate->resume}}'>
+                           {{$candidate->resume}}
+                       </option>
+                   @endforeach
+              </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Remove Resume</button>
-
-		{{--<ul class=''>
-			@foreach($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
-		</ul>--}}
-
-		<div class='error'>
-			@if(count($errors)>0)
-				Please corect the error above and re-submit.
-			@endif
-		</div>
-
+        <button type="submit" class="btn btn-primary">
+            Download Resume
+        </button>
     </form>
+
 @stop
