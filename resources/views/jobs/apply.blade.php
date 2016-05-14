@@ -12,7 +12,7 @@
 
     <h1>Select a resume for your application</h1><br>
 
-    <form method='POST' action='/jobs/apply/{id?}'>
+    <!-- <form method='GET' action='/jobs/apply/{id?}'> -->
 
         <input type='hidden' id='id' name='id' value='{{$id}}'>
 
@@ -46,6 +46,6 @@
           </a>
         </button>
 
-    </form>
+    <!-- </form> -->
 
 @stop
