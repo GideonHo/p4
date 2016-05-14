@@ -34,11 +34,11 @@ class RecruitersTableSeeder extends Seeder
         DB::table('recruiters')->insert([
         'created_at' => '2016-03-31',
         'updated_at' => '2016-03-31',
-        'name' => 'UBS AG',
-        'email' => 'info@ubs.com',
-        'address' => '46-52/F Two International Finance Centre, 8 Finance Street, Central, Hong Kong',
-        'website' => 'https://www.ubs.com/hk/en.html',
-        'logo' => 'photo/ubs.png',
+        'name' => 'The World Bank',
+        'email' => 'info@worldbank.org',
+        'address' => '1818 H Street, NW Washington, DC 20433 USA (202) 473-1000',
+        'website' => 'https://www.worldbank.org/',
+        'logo' => 'photo/world_bank.png',
         ]);
     }
 }

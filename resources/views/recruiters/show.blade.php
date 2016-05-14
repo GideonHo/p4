@@ -11,7 +11,7 @@
 @section('sub-title')
     @if($id)
 	    <div style='float: left'>
-			<img class='cover' src='{{URL::asset("$recruiter->logo")}}' style='border: none; min-height: 100px; width: auto; min-width: 300px'>
+			<img class='cover' src='{{URL::asset("$recruiter->logo")}}' style='border: none; height: 150px; width: auto'>
 		</div>
 	@endif
 @stop
